@@ -46,17 +46,20 @@ def pages(request):
                 push.append(str(row['price']))
                 date.append(str(row['booking_date']))
                 author.append(str(row['star']))
-            print(os.path.exists('ptt.csv'), os.listdir('.'))
-            if not os.path.exists('ptt.csv'):
-                df = pd.DataFrame(
-                    {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
-                df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
-            else:
-                origin = pd.read_csv('ptt.csv', encoding='utf-8-sig')
-                df = pd.DataFrame(
-                    {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
-                df = df.append(origin)
-                df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
+            # print(os.path.exists('ptt.csv'), os.listdir('.'))
+            df = pd.DataFrame(
+                {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
+            # 0516 Heroku除資料庫外imuutable
+            # if not os.path.exists('ptt.csv'):
+            #     df = pd.DataFrame(
+            #         {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
+            #     df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
+            # else:
+            #     origin = pd.read_csv('ptt.csv', encoding='utf-8-sig')
+            #     df = pd.DataFrame(
+            #         {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
+            #     df = df.append(origin)
+            #     df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
 
             user_list = []
             for i in df.iterrows():
@@ -64,6 +67,7 @@ def pages(request):
                 d = {'title': i['標題'], 'link': i['連結'], 'price': i['推噓數'],
                      'booking_date': i['日期'], 'star': i['作者']}
                 user_list.append(d)
+
             # 0516: SQLite在heroku會有問題，故改用csv
             # for i in klook:
             #     title = str(i['title'])
@@ -76,6 +80,7 @@ def pages(request):
             # print('成功新增資料')
             # user_list = UserInfo.objects.all()
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
+
             context["tickets"] = user_list
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
