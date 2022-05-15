@@ -36,13 +36,15 @@
                 <!-- [ Main Content ] start -->
                 <div class="row">
                     <!-- [ Morris Chart ] start -->
-                    <div class="col-xl-6">
+                    <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
                                 <h5>Bar [ Simple ] Chart</h5>
                             </div>
                             <div class="card-block">
-                                <div id="morris-bar-chart" style="height:300px"></div>
+                                    {% autoescape off %}
+                                    {{ plot_div }}
+                                    {% endautoescape %}
                             </div>
                         </div>
                     </div>
@@ -52,7 +54,9 @@
                                 <h5>Bar [ Stacked ] Chart</h5>
                             </div>
                             <div class="card-block">
-                                <div id="morris-bar-stacked-chart" style="height:300px"></div>
+                                {% autoescape off %}
+                                    {{ bar }}
+                                {% endautoescape %}
                             </div>
                         </div>
                     </div>

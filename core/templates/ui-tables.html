@@ -140,6 +140,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for ticket in tickets %}
+                                            <tr>
+                                                <td scope="row">
+                                                    <a href="{{ ticket.link }}" target="_blank">{{ ticket.title }}</a>
+                                                </td>
+                                                <td>{{ ticket.price }}</td>
+                                                <td>{{ ticket.booking_date }}</td>
+                                                <td>{{ ticket.star }}</td>
+                                            </tr>
+                                            {% endfor %}
                                             <tr>
                                                 <th scope="row">1</th>
                                                 <td>Mark</td>
