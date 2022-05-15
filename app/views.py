@@ -10,6 +10,8 @@ from django.template import loader
 from django.urls import reverse
 from .scrappers import Klook
 from .models import *
+import pandas as pd
+import os
 
 
 @login_required(login_url="/login/")
@@ -37,21 +39,44 @@ def pages(request):
             user_list = []  # 儲存用戶輸入的資訊
             klook = Klook('測試')
             klook = klook.scrape()
-            for i in klook:
-                title = str(i['title'])
-                link = str(i['link'])
-                price = str(i['price'])
-                booking_date = str(i['booking_date'])
-                star = str(i['star'])
-                UserInfo.objects.create(
-                    title=title, line=link, price=price, booking_date=booking_date, star=star)
-                # print('成功新增資料')
+            title, link, push, date, author = [], [], [], [], []
+            for row in klook:
+                title.append(str(row['title']))
+                link.append(str(row['link']))
+                push.append(str(row['price']))
+                date.append(str(row['booking_date']))
+                author.append(str(row['star']))
+            print(os.path.exists('ptt.csv'), os.listdir('.'))
+            if not os.path.exists('ptt.csv'):
+                df = pd.DataFrame(
+                    {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
+                df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
+            else:
+                origin = pd.read_csv('ptt.csv', encoding='utf-8-sig')
+                df = pd.DataFrame(
+                    {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
+                df = df.append(origin)
+                df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
 
-            # # 从数据库中读取所有数据，注意缩进
-            user_list = UserInfo.objects.all()
+            user_list = []
+            for i in df.iterrows():
+                i = i[1]
+                d = {'title': i['標題'], 'link': i['連結'], 'price': i['推噓數'],
+                     'booking_date': i['日期'], 'star': i['作者']}
+                user_list.append(d)
+            # 0516: SQLite在heroku會有問題，故改用csv
+            # for i in klook:
+            #     title = str(i['title'])
+            #     link = str(i['link'])
+            #     price = str(i['price'])
+            #     booking_date = str(i['booking_date'])
+            #     star = str(i['star'])
+            #     UserInfo.objects.create(
+            #         title=title, line=link, price=price, booking_date=booking_date, star=star)
+            # print('成功新增資料')
+            # user_list = UserInfo.objects.all()
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
             context["tickets"] = user_list
-            print(context["tickets"])
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
             from pyecharts import options as opts
