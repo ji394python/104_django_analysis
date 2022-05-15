@@ -80,8 +80,10 @@ def pages(request):
             # print('成功新增資料')
             # user_list = UserInfo.objects.all()
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
-
+            user_list = [{'title': '[心得] 關於永豐的軟體', 'link': 'https://www.ptt.cc//bbs/Stock/M.1652616237.A.7C7.html',
+                          'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
             context["tickets"] = user_list
+            print(user_list)
             context["tt"] = "測試用"
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
