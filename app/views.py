@@ -82,6 +82,7 @@ def pages(request):
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
 
             context["tickets"] = user_list
+            context["tt"] = "測試用"
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
             from pyecharts import options as opts

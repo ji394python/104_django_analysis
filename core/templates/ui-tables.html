@@ -133,7 +133,7 @@
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>標題</th>
+                                                <th>{{tt}}</th>
                                                 <th>推噓數</th>
                                                 <th>日期</th>
                                                 <th>作者</th>
@@ -143,7 +143,7 @@
                                             {% for ticket in tickets %}
                                             <tr>
                                                 <td scope="row">
-                                                    <a href="{{ ticket.link }}" target="_blank">{{ ticket.title }}</a>
+                                                    <a href={{ ticket.link }} target="_blank">{{ ticket.title }}</a>
                                                 </td>
                                                 <td>{{ ticket.price }}</td>
                                                 <td>{{ ticket.booking_date }}</td>
