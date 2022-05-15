@@ -37,7 +37,7 @@ def pages(request):
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
             user_list = []  # 儲存用戶輸入的資訊
-            klook = Klook('測試')
+            klook = Klook('test')
             klook = klook.scrape()
             title, link, push, date, author = [], [], [], [], []
             for row in klook:
@@ -48,7 +48,7 @@ def pages(request):
                 author.append(str(row['star']))
             # print(os.path.exists('ptt.csv'), os.listdir('.'))
             df = pd.DataFrame(
-                {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
+                {'title': title, 'link': link, 'push': push, 'date': date, 'author': author})
             # 0516 Heroku除資料庫外imuutable
             # if not os.path.exists('ptt.csv'):
             #     df = pd.DataFrame(
@@ -64,8 +64,8 @@ def pages(request):
             user_list = []
             for i in df.iterrows():
                 i = i[1]
-                d = {'title': i['標題'], 'link': i['連結'], 'price': i['推噓數'],
-                     'booking_date': i['日期'], 'star': i['作者']}
+                d = {'title': i['title'], 'link': i['link'], 'price': i['push'],
+                     'booking_date': i['date'], 'star': i['author']}
                 user_list.append(d)
 
             # 0516: SQLite在heroku會有問題，故改用csv
