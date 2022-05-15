@@ -8,7 +8,6 @@ __pycache__/
 
 # database & logs
 *.db
-*.sqlite3
 *.log
 
 # venv
