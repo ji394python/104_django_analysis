@@ -45,7 +45,7 @@ def pages(request):
                 star = str(i['star'])
                 UserInfo.objects.create(
                     title=title, line=link, price=price, booking_date=booking_date, star=star)
-                print('成功新增資料')
+                # print('成功新增資料')
 
             # # 从数据库中读取所有数据，注意缩进
             user_list = UserInfo.objects.all()
