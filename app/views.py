@@ -37,6 +37,8 @@ def pages(request):
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
             klook = Klook('test')
+            print('有無元件')
+            print(klook)
             klook = klook.scrape()
             print(klook)
             # title, link, push, date, author = [], [], [], [], []
