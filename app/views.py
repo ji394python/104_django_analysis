@@ -83,7 +83,7 @@ def pages(request):
             #               'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
             context["tickets"] = user_list
             # print(user_list)
-            context["tt"] = klook[0]['title']
+            context["tt"] = '測試'
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
             from pyecharts import options as opts
