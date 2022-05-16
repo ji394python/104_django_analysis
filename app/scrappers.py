@@ -18,7 +18,7 @@ class Klook():
 
             # 取得傳入城市的所有一日遊&導賞團票券
             response = requests.get(
-                f"https://www.ptt.cc/bbs/Stock/index.html")
+                f"https://www.ptt.cc/bbs/Stock/index.html", headers={'user-agrnt': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Mobile Safari/537.36 Edg/101.0.1210.47'})
             print(response.status_code, response.text)
             soup = BeautifulSoup(response.text, "lxml")
 
