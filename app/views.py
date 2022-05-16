@@ -39,16 +39,16 @@ def pages(request):
             user_list = []  # 儲存用戶輸入的資訊
             klook = Klook('test')
             klook = klook.scrape()
-            title, link, push, date, author = [], [], [], [], []
-            for row in klook:
-                title.append(str(row['title']))
-                link.append(str(row['link']))
-                push.append(str(row['price']))
-                date.append(str(row['booking_date']))
-                author.append(str(row['star']))
-            # print(os.path.exists('ptt.csv'), os.listdir('.'))
-            df = pd.DataFrame(
-                {'title': title, 'link': link, 'push': push, 'date': date, 'author': author})
+            # title, link, push, date, author = [], [], [], [], []
+            # for row in klook:
+            #     title.append(str(row['title']))
+            #     link.append(str(row['link']))
+            #     push.append(str(row['price']))
+            #     date.append(str(row['booking_date']))
+            #     author.append(str(row['star']))
+            # # print(os.path.exists('ptt.csv'), os.listdir('.'))
+            # df = pd.DataFrame(
+            #     {'title': title, 'link': link, 'push': push, 'date': date, 'author': author})
             # 0516 Heroku除資料庫外imuutable
             # if not os.path.exists('ptt.csv'):
             #     df = pd.DataFrame(
@@ -61,12 +61,12 @@ def pages(request):
             #     df = df.append(origin)
             #     df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
 
-            user_list = []
-            for i in df.iterrows():
-                i = i[1]
-                d = {'title': i['title'], 'link': i['link'], 'price': i['push'],
-                     'booking_date': i['date'], 'star': i['author']}
-                user_list.append(d)
+            # user_list = []
+            # for i in df.iterrows():
+            #     i = i[1]
+            #     d = {'title': i['title'], 'link': i['link'], 'price': i['push'],
+            #          'booking_date': i['date'], 'star': i['author']}
+            #     user_list.append(d)
 
             # 0516: SQLite在heroku會有問題，故改用csv
             # for i in klook:
@@ -80,11 +80,11 @@ def pages(request):
             # print('成功新增資料')
             # user_list = UserInfo.objects.all()
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
-            user_list = [{'title': '[心得] 關於永豐的軟體', 'link': 'https://www.ptt.cc//bbs/Stock/M.1652616237.A.7C7.html',
-                          'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
-            context["tickets"] = user_list
-            print(user_list)
-            context["tt"] = "測試用"
+            # user_list = [{'title': '[心得] 關於永豐的軟體', 'link': 'https://www.ptt.cc//bbs/Stock/M.1652616237.A.7C7.html',
+            #               'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
+            context["tickets"] = klook
+            # print(user_list)
+            context["tt"] = klook[0]['title']
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
             from pyecharts import options as opts
