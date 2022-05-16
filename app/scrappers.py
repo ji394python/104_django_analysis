@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
+import cloudscraper
 
 
 # KLOOK客路網站
@@ -15,10 +16,12 @@ class Klook():
         result = []  # 回傳結果
 
         if self.city_name:  # 如果城市名稱非空值
-
+            scraper = cloudscraper.create_scraper()
+            response = scraper.get(
+                "https://www.ptt.cc/bbs/Stock/index.html")
             # 取得傳入城市的所有一日遊&導賞團票券
-            response = requests.get(
-                f"https://www.ptt.cc/bbs/Stock/index.html", headers={'user-agrnt': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Mobile Safari/537.36 Edg/101.0.1210.47'})
+            # response = requests.get(
+            #     f"https://www.ptt.cc/bbs/Stock/index.html", headers={'user-agrnt': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Mobile Safari/537.36 Edg/101.0.1210.47'})
             print(response.status_code, response.text)
             soup = BeautifulSoup(response.text, "lxml")
 

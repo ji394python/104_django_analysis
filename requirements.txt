@@ -14,3 +14,4 @@ lxml
 requests
 pyecharts
 pandas 
+cloudscraper-1.2.60
