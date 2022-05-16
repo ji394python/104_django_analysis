@@ -38,6 +38,7 @@ def pages(request):
         if load_template == 'ui-tables.html':
             klook = Klook('test')
             klook = klook.scrape()
+            print(klook)
             # title, link, push, date, author = [], [], [], [], []
             # for row in klook:
             #     title.append(str(row['title']))
