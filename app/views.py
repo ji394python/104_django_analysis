@@ -81,7 +81,8 @@ def pages(request):
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
             # user_list = [{'title': '[心得] 關於永豐的軟體', 'link': 'https://www.ptt.cc//bbs/Stock/M.1652616237.A.7C7.html',
             #               'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
-            context["tickets"] = user_list
+            context["tickets"] = [klook[2]]
+            print([klook[2]])
             # print(user_list)
             context["tt"] = '測試'
         if load_template == 'charts-morris.html':
