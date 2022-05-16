@@ -36,7 +36,6 @@ def pages(request):
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
-            user_list = []  # 儲存用戶輸入的資訊
             klook = Klook('test')
             klook = klook.scrape()
             # title, link, push, date, author = [], [], [], [], []
@@ -69,20 +68,20 @@ def pages(request):
             #     user_list.append(d)
 
             # 0516: SQLite在heroku會有問題，故改用csv
-            # for i in klook:
-            #     title = str(i['title'])
-            #     link = str(i['link'])
-            #     price = str(i['price'])
-            #     booking_date = str(i['booking_date'])
-            #     star = str(i['star'])
-            #     UserInfo.objects.create(
-            #         title=title, line=link, price=price, booking_date=booking_date, star=star)
-            # print('成功新增資料')
-            # user_list = UserInfo.objects.all()
+            for i in klook:
+                title = str(i['title'])
+                link = str(i['link'])
+                price = str(i['price'])
+                booking_date = str(i['booking_date'])
+                star = str(i['star'])
+                UserInfo.objects.create(
+                    title=title, line=link, price=price, booking_date=booking_date, star=star)
+            print('成功新增資料')
+            user_list = UserInfo.objects.all()
             # return render(request, 'index.html', {'data': user_list,'logout':'#'})
             # user_list = [{'title': '[心得] 關於永豐的軟體', 'link': 'https://www.ptt.cc//bbs/Stock/M.1652616237.A.7C7.html',
             #               'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
-            context["tickets"] = klook
+            context["tickets"] = user_list
             # print(user_list)
             context["tt"] = klook[0]['title']
         if load_template == 'charts-morris.html':
