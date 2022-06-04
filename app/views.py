@@ -38,7 +38,6 @@ def pages(request):
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
             if request.method == 'POST':
-                continue
                 search = request.POST.get('search')
                 S104 = Scrape_104('實習 intern', 150)
                 S104 = S104.scrape()
