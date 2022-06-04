@@ -3,15 +3,16 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+from .forms import NameForm
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-from .scrappers import Klook
+from .scrappers import Scrape_104
 from .models import *
 import pandas as pd
-import os
+from .jieba_cut import Jieba_Cut
 
 
 @login_required(login_url="/login/")
@@ -36,58 +37,72 @@ def pages(request):
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
-            klook = Klook('test')
-            print('有無元件')
-            print(klook)
-            klook = klook.scrape()
-            print(klook)
-            # title, link, push, date, author = [], [], [], [], []
-            # for row in klook:
-            #     title.append(str(row['title']))
-            #     link.append(str(row['link']))
-            #     push.append(str(row['price']))
-            #     date.append(str(row['booking_date']))
-            #     author.append(str(row['star']))
-            # # print(os.path.exists('ptt.csv'), os.listdir('.'))
-            # df = pd.DataFrame(
-            #     {'title': title, 'link': link, 'push': push, 'date': date, 'author': author})
-            # 0516 Heroku除資料庫外imuutable
-            # if not os.path.exists('ptt.csv'):
-            #     df = pd.DataFrame(
-            #         {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
-            #     df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
-            # else:
-            #     origin = pd.read_csv('ptt.csv', encoding='utf-8-sig')
-            #     df = pd.DataFrame(
-            #         {'標題': title, '連結': link, '推噓數': push, '日期': date, '作者': author})
-            #     df = df.append(origin)
-            #     df.to_csv('ptt.csv', encoding='utf-8-sig', index=False)
+            if request.method == 'POST':
+                continue
+                search = request.POST.get('search')
+                S104 = Scrape_104('實習 intern', 150)
+                S104 = S104.scrape()
+                cut = Jieba_Cut(S104, r'app\doc\stopword.txt',
+                                r'app\doc\user.txt')  # 斷詞模組
+                cut.cut()
+                # 0516: SQLite在heroku會有問題，故改用csv
+                for r, i in S104.iterrows():
+                    jobAnnounceDate = str(i['jobAnnounceDate'])
+                    jobTitles = str(i['jobTitles'])
+                    jobCompanyName = str(i['jobCompanyName'])
+                    jobCompanyUrl = str(i['jobCompanyUrl'])
+                    jobCompanyIndustry = str(i['jobCompanyIndustry'])
+                    jobContent = str(i['jobContent'])
+                    jobCategory = str(i['jobCategory'])
+                    jobSalary = str(i['jobSalary'])
+                    jobLocation = str(i['jobLocation'])
+                    jobRqYear = str(i['jobRqYear'])
+                    jobRqEducation = str(i['jobRqEducation'])
+                    jobRqDepartment = str(i['jobRqDepartment'])
+                    jobSpecialty = str(i['jobSpecialty'])
+                    jobOthers = str(i['jobOthers'])
+                    jobDetailUrl = str(i['jobDetailUrl'])
+                    jiebaCut = str(i['jiebaCut'])
+                    Jobs.objects.create(jobAnnounceDate=jobAnnounceDate,
+                                        jobTitles=jobTitles,
+                                        jobCompanyName=jobCompanyName,
+                                        jobCompanyUrl=jobCompanyUrl,
+                                        jobCompanyIndustry=jobCompanyIndustry,
+                                        jobContent=jobContent,
+                                        jobCategory=jobCategory,
+                                        jobSalary=jobSalary,
+                                        jobLocation=jobLocation,
+                                        jobRqYear=jobRqYear,
+                                        jobRqEducation=jobRqEducation,
+                                        jobRqDepartment=jobRqDepartment,
+                                        jobSpecialty=jobSpecialty,
+                                        jobOthers=jobOthers,
+                                        jobDetailUrl=jobDetailUrl,
+                                        jiebaCut=jiebaCut)
+                    print(f'{r}:新增資料')
+                # print('成功新增資料')
 
-            # user_list = []
-            # for i in df.iterrows():
-            #     i = i[1]
-            #     d = {'title': i['title'], 'link': i['link'], 'price': i['push'],
-            #          'booking_date': i['date'], 'star': i['author']}
-            #     user_list.append(d)
+                for row in Jobs.objects.all().reverse():
+                    if Jobs.objects.filter(jobTitles=row.jobTitles).count() > 1:
+                        row.delete()
+                        # print('刪除資料')
+            job_list = Jobs.objects.all()
+            # django-filters
+            # from .filters import JobFilter
+            # jobFilter = JobFilter(queryset=job_list)
+            # if request.method == "POST":
+            #     jobFilter = JobFilter(request.POST, queryset=job_list)
 
-            # 0516: SQLite在heroku會有問題，故改用csv
-            for i in klook:
-                title = str(i['title'])
-                link = str(i['link'])
-                price = str(i['price'])
-                booking_date = str(i['booking_date'])
-                star = str(i['star'])
-                UserInfo.objects.create(
-                    title=title, line=link, price=price, booking_date=booking_date, star=star)
-                print('成功新增資料')
-            user_list = UserInfo.objects.all()
-            # return render(request, 'index.html', {'data': user_list,'logout':'#'})
-            # user_list = [{'title': '[心得] 關於永豐的軟體', 'link': 'https://www.ptt.cc//bbs/Stock/M.1652616237.A.7C7.html',
-            #               'price': '27', 'booking_date': ' 5/15', 'star': 'akwin'}]
-            context["tickets"] = user_list
-            print([klook[2]])
-            # print(user_list)
-            context["tt"] = '測試'
+            # django-tables2： pagination
+            from .tables import jobsTable
+            from django_tables2 import RequestConfig
+            table = jobsTable(job_list)
+            table.order_by = "-jobAnnounceDate"
+            RequestConfig(request, paginate={"per_page": 20}).configure(table)
+
+            context['table'] = table
+            context["jobs"] = job_list
+            context["tt"] = '職缺標題'
         if load_template == 'charts-morris.html':
             from pyecharts.charts import WordCloud, Bar
             from pyecharts import options as opts

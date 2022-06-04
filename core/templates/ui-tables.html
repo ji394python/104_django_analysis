@@ -4,8 +4,11 @@
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
+{% load render_table from django_tables2 %}
+<link rel="stylesheet" href="https://www.matrixdecor.eu/static/django_tables2/themes/paleblue/css/screen.css" />
 
 {% block content %}
+
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -29,97 +32,43 @@
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <div class="page-wrapper">
+                <div class="row"> 
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <div class="input-group col-4">
+                                        <input type="text" class="form-control" placeholder="搜尋職缺" aria-label="Recipient's username" aria-describedby="basic-addon2" name="search" required>
+                                        <div class="input-group-append">
+                                            <input class="btn btn-primary" type="submit" value="提交" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row"> 
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Striped Table</h5>
+                                <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
+                            </div>
+                            <div class="card-block table-border-style">
+                                <div class="table-responsive">
+                                    {% render_table table %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- [ Main Content ] start -->
-                <div class="row">
-                    <!-- [ basic-table ] start -->
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Basic Table</h5>
-                                <span class="d-block m-t-5">use class <code>table</code> inside table element</span>
-                            </div>
-                            <div class="card-block table-border-style">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- [ basic-table ] end -->
+                
 
-                    <!-- [ Hover-table ] start -->
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Hover Table</h5>
-                                <span class="d-block m-t-5">use class <code>table-hover</code> inside table element</span>
-                            </div>
-                            <div class="card-block table-border-style">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- [ Hover-table ] end -->
+                {% comment %} <div class="row">
 
                     <!-- [ stiped-table ] start -->
                     <div class="col-xl-12">
@@ -133,48 +82,45 @@
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
+                                                <th>發布日期</th>
                                                 <th>{{tt}}</th>
-                                                <th>推噓數</th>
-                                                <th>日期</th>
-                                                <th>作者</th>
+                                                <th>公司名稱</th>
+                                                <th>產業類別</th>
+                                                <th>職位類別</th>
+                                                <th>職缺薪資</th>
+                                                <th>薪資</th>
+                                                <th>地點</th>
+                                                <th>年資要求</th>
+                                                <th>學歷要求</th>
+                                                <th>特殊要求</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for ticket in tickets %}
+                                            {% for job in jobs %}
                                             <tr>
+                                                <td>{{ job.jobAnnounceDate }}</td>
                                                 <td scope="row">
-                                                    <a href={{ ticket.link }} target="_blank">{{ ticket.title }}</a>
+                                                    <a href={{ job.jobDetailUrl }} target="_blank">{{ job.jobTitles }}</a>
                                                 </td>
-                                                <td>{{ ticket.price }}</td>
-                                                <td>{{ ticket.booking_date }}</td>
-                                                <td>{{ ticket.star }}</td>
+                                                <td>
+                                                    <a href={{ job.jobCompanyUrl }} target="_blank">{{ job.jobCompanyName }}</a></td>
+                                                <td>{{ job.jobCompanyIndustry }}</td>
+                                                <td>{{ job.jobCategory }}</td>
+                                                <td>{{ job.jobSalary }}</td>
+                                                <td>{{ job.jobLocation }}</td>
+                                                <td>{{ job.jobRqYear }}</td>
+                                                <td>{{ job.jobRqEducation }}</td>
+                                                <td>{{ job.jobRqDepartment }}</td>
+                                                <td>{{ job.jobSpecialty }}</td>
                                             </tr>
                                             {% endfor %}
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- [ stiped-table ] end -->
+                    <!-- [ stiped-table ] end --> {% endcomment %}
                 </div>
                 <!-- [ Main Content ] end -->
             </div>

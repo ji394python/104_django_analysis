@@ -15,3 +15,4 @@ requests
 pyecharts
 pandas 
 cloudscraper==1.2.60
+git+https://github.com/APCLab/jieba-tw.git

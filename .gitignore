@@ -22,3 +22,6 @@ package-lock.json
 
 staticfiles/*
 !staticfiles/.gitkeep 
+
+#
+操作.txt
