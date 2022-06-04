@@ -38,4 +38,4 @@ urllib3==1.26.9
 wcwidth==0.2.5
 whitenoise==6.1.0
 zipp==3.8.0
-git+https://github.com/APCLab/jieba-tw.git
+git+https://github.com/TIGCR/jieba-tw
