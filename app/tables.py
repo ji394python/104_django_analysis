@@ -27,7 +27,7 @@ class jobsTable(tables.Table):
         model = Jobs
         # add class="paleblue" to <table> tag
         exclude = ('id', "jobCompanyUrl",
-                   "jobDetailUrl", )  # 可以隱藏欄位
+                   "jobDetailUrl", 'jobType')  # 可以隱藏欄位
         # sequence = ("last_name", "first_name", "birth_date", )  # 可以調整順序
 
         template_name = "django_tables2/bootstrap4.html"

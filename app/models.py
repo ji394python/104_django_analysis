@@ -31,3 +31,5 @@ class Jobs(models.Model):
     jobDetailUrl = models.CharField(max_length=32, verbose_name="職缺連結")
     jiebaCut = models.CharField(
         max_length=1000000, verbose_name="職缺斷詞", null=True)
+    jobType = models.CharField(
+        max_length=100, verbose_name="職缺屬性", null=True)

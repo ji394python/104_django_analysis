@@ -1,0 +1,179 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Charts Morris {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="/static/assets/plugins/chart-morris/css/morris.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Morris Chart</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="javascript:">Chart</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:">Morris Chart</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        {% comment %} <div class="accordion col-xl-1" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">文字雲功能說明</a></h5>
+                                </div>
+                            <p>文字雲是一種查看整體性趨勢的圖表........(請一直掰)</p>
+                            </div>
+                        </div> {% endcomment %}
+                        <div class="accordion col-xl-12" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">我是說明文字</a></h5>
+                                </div>
+                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <p style="font-weight: bold;">此處為從報告中直接貼過來，一起想一下怎麼樣掰比較好(?)</p>
+
+                                    <span style="font-weight: bold;color:#C00000;font-size:24px;">
+                                        職缺七：服務人員類職缺
+                                    </span>
+                                    <p style="line-height:200%;">
+                                        <div>
+                                            在服務業類的實習職缺中，顧主在職位敘述上的雙詞彙文字雲如下，其中出現的詞彙大致
+    上都與以下這二者有關「外向的人格特質、協助產品銷售」
+                                        </dvi>
+                                        <ul style="line-height:200%;"> 
+                                            <li>
+                                                <span style="font-weight: bold;color:#000;font-size:16px;">性格外向：  </span>
+                                                <span>在服務業類的職缺當中，雇主會希望求職者在個性上要有應該的樣子，「熱
+                                                    忱、活潑、樂觀、熱愛、流行、愛好、尤佳」等詞彙大量出現，</span>
+                                                <span style="font-weight: bold;color:#C00000;">顯示出外向樂觀不害臊的
+                                                    特質在此職位相當受到重視</span>
+                                                <span>。</span>
+                                            </li>
+                                            <li>
+                                                <span style="font-weight: bold;color:#000;font-size:16px;">協助產品銷售： </span>
+                                                <span>除了樂觀外向外，「銷售、商品、陳列、產品、客戶、品牌、顧客」等詞
+                                                    彙的出現，亦代表著該職缺需協助產品銷售的特點，</span>
+                                                <span style="font-weight: bold;color:#2177B4;">整體而言即擁有外向個性 -> 積極勇
+                                                    敢行銷，故雇主亦才在張貼職缺時，反覆提到這點</span>
+                                                <span>。
+                                                    </span>
+                                            </li>
+                                        </ul>
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Morris Chart ] start -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>文字雲 (Word Cloud)</h5>
+                            </div>
+                                {% autoescape off %}
+                                {{ plot_div }}
+                                {% endautoescape %}
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>雙詞彙長條圖 (Bar Plot)</h5>
+                            </div>
+                            <div class="card-block">
+                                {% autoescape off %}
+                                    {{ bar }}
+                                {% endautoescape %}
+                            </div>
+                        </div>
+                    </div>
+                    {% comment %} <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Line [ Angle ] Chart</h5>
+                            </div>
+                            <div class="card-block">
+                                <div id="morris-area-chart" style="height:300px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Area [ Smooth ] Chart</h5>
+                            </div>
+                            <div class="card-block">
+                                <div id="morris-area-curved-chart" style="height:300px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Line [ Angle ] Chart</h5>
+                            </div>
+                            <div class="card-block">
+                                <div id="morris-line-chart" class="ChartShadow" style="height:300px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Line [ Smooth ] Chart</h5>
+                            </div>
+                            <div class="card-block">
+                                <div id="morris-line-smooth-chart" class="ChartShadow" style="height:300px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Donut Chart</h5>
+                            </div>
+                            <div class="card-block">
+                                <div id="morris-donut-chart" style="height:300px"></div>
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                    <!-- [ Morris Chart ] end -->
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
+    <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
+    <script src="/static/assets/js/pages/chart-morris-custom.js"></script>
+
+{% endblock javascripts %}

@@ -13,6 +13,7 @@ from .scrappers import Scrape_104
 from .models import *
 import pandas as pd
 from .jieba_cut import Jieba_Cut
+from .draw import *
 
 
 @login_required(login_url="/login/")
@@ -32,6 +33,13 @@ def pages(request):
 
         load_template = request.path.split('/')[-1]
         print(load_template)
+        industry = ['data-engineer.html', 'data-analysis.html', 'marketing.html',
+                    'administration.html', 'art-design.html', 'catering.html',
+                    'service.html', 'technician.html', 'education.html']
+        name = ['資訊工程', '數據分析', '行銷企劃', '行政助理',
+                '藝術設計', '餐飲', '服務', '技術與操作', '教育']
+        jobN = ['資訊工程', '數據分析', '行銷企劃', '行政事務',
+                '媒體設計', '餐飲飯店', '服務業人員', '一般技術', '教育補教']
 
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
@@ -39,11 +47,12 @@ def pages(request):
         if load_template == 'ui-tables.html':
             if request.method == 'POST':
                 search = request.POST.get('search')
-                S104 = Scrape_104('實習 intern', 150)
+                S104 = Scrape_104('實習 intern', 2)
                 S104 = S104.scrape()
-                cut = Jieba_Cut(S104, r'app\doc\stopword.txt',
-                                r'app\doc\user.txt')  # 斷詞模組
-                cut.cut()
+                # S104 = pd.read_csv(r'app\全部實習.csv', encoding='utf-8-sig')
+                cut = Jieba_Cut(S104)  # 斷詞模組
+                cut.cut(r'app\doc\stopword.txt', r'app\doc\user.txt')
+                S104 = cut.df
                 # 0516: SQLite在heroku會有問題，故改用csv
                 for r, i in S104.iterrows():
                     jobAnnounceDate = str(i['jobAnnounceDate'])
@@ -62,6 +71,7 @@ def pages(request):
                     jobOthers = str(i['jobOthers'])
                     jobDetailUrl = str(i['jobDetailUrl'])
                     jiebaCut = str(i['jiebaCut'])
+                    jobType = str(i['jobType'])
                     Jobs.objects.create(jobAnnounceDate=jobAnnounceDate,
                                         jobTitles=jobTitles,
                                         jobCompanyName=jobCompanyName,
@@ -77,7 +87,8 @@ def pages(request):
                                         jobSpecialty=jobSpecialty,
                                         jobOthers=jobOthers,
                                         jobDetailUrl=jobDetailUrl,
-                                        jiebaCut=jiebaCut)
+                                        jiebaCut=jiebaCut,
+                                        jobType=jobType)
                     print(f'{r}:新增資料')
                 # print('成功新增資料')
 
@@ -103,75 +114,99 @@ def pages(request):
             context["jobs"] = job_list
             context["tt"] = '職缺標題'
         if load_template == 'charts-morris.html':
-            from pyecharts.charts import WordCloud, Bar
-            from pyecharts import options as opts
-            data = [
-                ("生活", "999"),
-                ("供热", "888"),
-                ("供量", "777"),
-                ("生活用水管理", "688"),
-                ("供水", "588"),
-                ("交通", "516"),
-                ("城市", "515"),
-                ("環保", "483"),
-                ("房地管理", "462"),
-                ("建设", "449"),
-                ("保障", "429"),
-                ("社會", "407"),
-                ("發展", "254"),
-                ("職缺", "254"),
-                ("Python", "253"),
-                ("R", "253"),
-                ("SQL", "223"),
-                ("Java", "223"),
-                ("Hardoop", "223"),
-                ("Spart", "223"),
-                ("UDST", "152"),
-                ("TWD", "152"),
-                ("脫鉤", "152"),
-                ("經濟", "152"),
-                ("專案", "112"),
-                ("怒", "112"),
-                ("開心", "112"),
-                ("哈哈哈哈哈", "92"),
-                ("煩死了", "92"),
-                ("管理", "92"),
-                ("文娱", "72"),
-                ("秩序", "72"),
-                ("啟發", "72"),
-                ("NP-P", "72"),
-                ("占道", "71"),
-                ("地上", "71"),
-                ("健身", "41"),
-                ("排放", "41"),
-                ("資料庫", "41"),
-                ("財報", "41"),
-                ("???", "41")
-            ]
+            job_list = Jobs.objects.all()
+            df = pd.DataFrame(list(job_list.values()))
+            freq = Jieba_Cut(df)  # 斷詞模組
+            freqTable = freq.pd2frequency('')
+            # 圓餅圖 - 類別
+            cat_dict = {i: 0 for i in name}
+            for c in df['jobType'].values:
+                w = c.split('、')
+                if w[0] == '':
+                    continue
+                for i in w:
+                    cat_dict[i] += 1
 
-            x = (
-                WordCloud()
-                .add(series_name="文字雲", data_pair=data, word_size_range=[6, 66])
-                .set_global_opts(
-                    title_opts=opts.TitleOpts(
-                        title="文字雲", title_textstyle_opts=opts.TextStyleOpts(font_size=23)
-                    ),
-                    tooltip_opts=opts.TooltipOpts(is_show=True),
-                )
-                .render_embed()
-            )
-            context['plot_div'] = x
-            c = (
-                Bar(init_opts=opts.InitOpts(width="300px",
-                                            height="300px",
-                                            page_title="柱狀圖")
-                    )
-                .add_xaxis(["A", "B", "C", "D", "E", "F"])
-                .add_yaxis("商家A", [5, 20, 36, 10, 75, 90])
-                .add_yaxis("商家B", [15, 25, 16, 55, 48, 8])
-                .set_global_opts(title_opts=opts.TitleOpts(title="Bar-基本範例", subtitle="副標題")).render_embed()
-            )
-            context['bar'] = c
+            piePlot_type = im_pie(jobN,
+                                  list(cat_dict.values()))
+            context['piePlot_type'] = piePlot_type
+
+            # 圓餅圖 - 地點
+            city = ['台北市', '高雄市', '新北市', '台中市',
+                    '桃園市', '新竹市', '新竹縣', '台南市', '其它縣市']
+            city_dict = {i: 0 for i in city}
+            for c in df['jobLocation'].values:
+                if c == '':
+                    continue
+                else:
+                    c = c[:3]
+                    if c in city:
+                        city_dict[c] += 1
+                    else:
+                        city_dict['其它縣市'] += 1
+
+            piePlot_region = im_pie(
+                list(city_dict.keys()), list(city_dict.values()))
+            context['piePlot_region'] = piePlot_region
+
+            data = []
+            for i in freqTable.values:
+                if i[1] < 10:
+                    continue
+                data.append(tuple(i))
+
+            wordCloud = im_word(data[:700])
+            context['plot_div'] = wordCloud
+
+            # BarPlot
+            bar = freq.getBarData('')
+            barPlot = im_bar(bar)
+
+            context['bar'] = barPlot
+
+        # if load_template == 'data-engineer.html':
+
+        #     job_list = Jobs.objects.all()
+        #     df = pd.DataFrame(list(job_list.values()))
+        #     freq = Jieba_Cut(df)  # 斷詞模組
+        #     freqTable = freq.pd2frequency('資訊工程')
+
+        #     data = []
+        #     for i in freqTable.values:
+        #         if i[1] < 10:
+        #             continue
+        #         data.append(tuple(i))
+        #     from .draw import im_word, im_bar
+        #     wordCloud = im_word(data[:700])
+        #     context['plot_div'] = wordCloud
+            # BarPlot
+        #     bar = freq.getBarData('資訊工程')
+        #     barPlot = im_bar(bar)
+
+        #     context['bar'] = barPlot
+        if load_template in industry:
+            filter = name[industry.index(load_template)]
+            # print('資訊工程')
+
+            job_list = Jobs.objects.all()
+            df = pd.DataFrame(list(job_list.values()))
+            freq = Jieba_Cut(df)  # 斷詞模組
+            # freq.cut(r'app\doc\stopword.txt', r'app\doc\user.txt') #資料準的話就不用這行
+            freqTable = freq.pd2frequency(filter)
+
+            data = []
+            for i in freqTable.values:
+                if i[1] < 10:
+                    continue
+                data.append(tuple(i))
+
+            wordCloud = im_word(data[:700])
+            context['plot_div'] = wordCloud
+            # BarPlot
+            bar = freq.getBarData(filter)
+            barPlot = im_bar(bar)
+
+            context['bar'] = barPlot
 
         html_template = loader.get_template(load_template)
         return HttpResponse(html_template.render(context, request))

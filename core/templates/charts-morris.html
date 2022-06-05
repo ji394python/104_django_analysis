@@ -35,23 +35,67 @@
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
                 <div class="row">
+                    <div class="col-xl-12">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">我是說明文字</a></h5>
+                                </div>
+                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    這邊會說明一下下方的文字雲和長條圖，另外下方的圖表可選擇要不要和此一樣做Toggle
+                                    <ul>
+                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度一：</span>職缺類別產業分布</li>
+                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度二：</span>實習職缺地點分布</li>
+                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度三：</span>各實習職缺應徵人數</li>
+                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度四：</span>各實習職缺詞彙不均度</li>
+                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度五：</span>各實習職缺薪資種類占比</li>
+                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度六：</span>各實習職缺平均薪資</li>
+                                            <ul>
+                                                <li>Phasellus iaculis neque</li>
+                                                <li>Purus sodales ultricies</li>
+                                                <li>Vestibulum laoreet porttitor sem</li>
+                                                <li>Ac tristique libero volutpat at</li>
+                                            </ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- [ Morris Chart ] start -->
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Bar [ Simple ] Chart</h5>
+                                <h5>職缺圓餅圖 (Pie Chart)</h5>
                             </div>
-                            <div class="card-block">
-                                    {% autoescape off %}
-                                    {{ plot_div }}
-                                    {% endautoescape %}
-                            </div>
+                                {% autoescape off %}
+                                {{ piePlot_type }}
+                                {% endautoescape %}
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Bar [ Stacked ] Chart</h5>
+                                <h5>職缺地點圓餅圖 (Pie Chart)</h5>
+                            </div>
+                                {% autoescape off %}
+                                {{ piePlot_region }}
+                                {% endautoescape %}
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>文字雲 (Word Cloud)</h5>
+                            </div>
+                                {% autoescape off %}
+                                {{ plot_div }}
+                                {% endautoescape %}
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>雙詞彙長條圖 (Bar Plot)</h5>
                             </div>
                             <div class="card-block">
                                 {% autoescape off %}
@@ -60,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    {% comment %} <div class="col-xl-6">
                         <div class="card">
                             <div class="card-header">
                                 <h5>Line [ Angle ] Chart</h5>
@@ -109,7 +153,7 @@
                                 <div id="morris-donut-chart" style="height:300px"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <!-- [ Morris Chart ] end -->
                 </div>
                 <!-- [ Main Content ] end -->
