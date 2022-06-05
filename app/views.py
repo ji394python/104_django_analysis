@@ -51,7 +51,7 @@ def pages(request):
                 S104 = S104.scrape()
                 # S104 = pd.read_csv(r'app\全部實習.csv', encoding='utf-8-sig')
                 cut = Jieba_Cut(S104)  # 斷詞模組
-                cut.cut(r'app\doc\stopword.txt', r'app\doc\user.txt')
+                cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')
                 S104 = cut.df
                 # 0516: SQLite在heroku會有問題，故改用csv
                 for r, i in S104.iterrows():
