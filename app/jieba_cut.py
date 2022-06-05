@@ -8,8 +8,10 @@ import json
 class Jieba_Cut():
     def __init__(self, df: pd.DataFrame):
         self.df = df
+        print("斷點6：?????????????????")
         self.jobD = json.load(
             open(r'app\doc\jobD.json', 'r', encoding='utf-8'))
+        print("斷點7：?????????????????")
         jieba.case_sensitive = True
 
     def cut(self, stopWord: str, userDict: str):
