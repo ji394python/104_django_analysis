@@ -114,10 +114,12 @@ def pages(request):
             context["jobs"] = job_list
             context["tt"] = '職缺標題'
         if load_template == 'charts-morris.html':
+            print("斷點一：?????????????????")
             job_list = Jobs.objects.all()
             df = pd.DataFrame(list(job_list.values()))
             freq = Jieba_Cut(df)  # 斷詞模組
             freqTable = freq.pd2frequency('')
+            print("斷點2：?????????????????")
             # 圓餅圖 - 類別
             cat_dict = {i: 0 for i in name}
             for c in df['jobType'].values:
@@ -130,7 +132,7 @@ def pages(request):
             piePlot_type = im_pie(jobN,
                                   list(cat_dict.values()))
             context['piePlot_type'] = piePlot_type
-
+            print("斷點3：?????????????????")
             # 圓餅圖 - 地點
             city = ['台北市', '高雄市', '新北市', '台中市',
                     '桃園市', '新竹市', '新竹縣', '台南市', '其它縣市']
