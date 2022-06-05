@@ -10,9 +10,11 @@ class Jieba_Cut():
         self.df = df
         print("斷點6：?????????????????")
         import os
-        print(os.listdir('.'))
+        print('第一層', os.listdir('.'))
+        print('第二層', os.listdir('app'))
+        print('第三層', os.listdir(r'app/doc'))
         self.jobD = json.load(
-            open(r'app\doc\jobD.json', 'r', encoding='utf-8'))
+            open(r'app/doc/jobD.json', 'r', encoding='utf-8'))
         print("斷點7：?????????????????")
         jieba.case_sensitive = True
 
