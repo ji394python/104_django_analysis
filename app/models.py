@@ -33,3 +33,5 @@ class Jobs(models.Model):
         max_length=1000000, verbose_name="職缺斷詞", null=True)
     jobType = models.CharField(
         max_length=100, verbose_name="職缺屬性", null=True)
+    jobApplyNums = models.CharField(
+        max_length=100, verbose_name="應徵人數", null=True)

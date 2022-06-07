@@ -80,6 +80,8 @@ class Scrape_104():
                 'li')[2].text for elem in jobList]  # 職缺公司所屬產業類別
             jobSalary = [elem.select('div.job-list-tag.b-content')
                          [0].select('span')[0].text for elem in jobList]  # 待遇資訊
+            jobApplyNums = [elem.select(
+                '.gtm-list-apply')[0].text[:-2] for elem in jobList]  # 應徵人數
             jobOtherInfo = [elem.select('ul.b-list-inline.b-clearfix.job-list-intro.b-content')[0]
                             for elem in jobList]  # 整理其他工作資訊(工作地點, 年資要求, 學歷要求)
             jobLocation = [elem.select(
@@ -95,7 +97,7 @@ class Scrape_104():
             jobContent, jobCategory, jobRqDepartment, jobSpecialty, jobOthers = [], [], [], [], []
             for i, iJobDetailUrl in enumerate(jobDetailUrl):
 
-                print('目前正在爬取第' + str(page) + '頁連結，當前頁面連結下載進度: ' +
+                print('爬取第' + str(page) + f'頁：第{i+1}個職缺 ' +
                       str(i+1) + ' / ' + str(len(jobDetailUrl)))
 
                 # 詳細資訊需透過額外的ajax爬取
@@ -162,6 +164,7 @@ class Scrape_104():
                                       'jobCompanyIndustry': jobCompanyIndustry,
                                       'jobContent': jobContent,
                                       'jobCategory': jobCategory,
+                                      'jobApplyNums': jobApplyNums,
                                       'jobSalary': jobSalary,
                                       'jobLocation': jobLocation,
                                       'jobRqYear': jobRqYear,

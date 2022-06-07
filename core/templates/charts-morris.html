@@ -85,6 +85,51 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
+                                <h5>職缺種類長條圖 (Pie Chart)</h5>
+                            </div>
+                            <div class="col-xl-12">
+                                {% autoescape off %}
+                                {{ stackPlot }}
+                                {% endautoescape %}
+                            </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>職缺應徵人數堆疊長條圖 (Pie Chart)</h5>
+                            </div>
+                                {% autoescape off %}
+                                {{ no_stackPlot }}
+                                {% endautoescape %}
+                        </div>
+                    </div>
+                    <!-- [ Morris Chart ] start -->
+                    
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>職缺文字不均度 (Pie Chart)</h5>
+                            </div>
+                                {% autoescape off %}
+                                {{ mixedPlot }}
+                                {% endautoescape %}
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>職缺薪水圖 (Pie Chart)</h5>
+                            </div>
+                                {% autoescape off %}
+                                {{ barLinePlot }}
+                                {% endautoescape %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
                                 <h5>文字雲 (Word Cloud)</h5>
                             </div>
                                 {% autoescape off %}

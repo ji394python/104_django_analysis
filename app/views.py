@@ -46,10 +46,10 @@ def pages(request):
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
             if request.method == 'POST':
-                search = request.POST.get('search')
-                S104 = Scrape_104('實習 intern', 2)
-                S104 = S104.scrape()
-                # S104 = pd.read_csv(r'app\全部實習.csv', encoding='utf-8-sig')
+                # search = request.POST.get('search')
+                # S104 = Scrape_104('實習 intern', 2)
+                # S104 = S104.scrape()
+                S104 = pd.read_csv(r'app/0607全部實習職缺.csv', encoding='utf-8-sig')
                 cut = Jieba_Cut(S104)  # 斷詞模組
                 cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')
                 S104 = cut.df
@@ -72,6 +72,7 @@ def pages(request):
                     jobDetailUrl = str(i['jobDetailUrl'])
                     jiebaCut = str(i['jiebaCut'])
                     jobType = str(i['jobType'])
+                    jobApplyNums = str(i['jobApplyNums'])
                     Jobs.objects.create(jobAnnounceDate=jobAnnounceDate,
                                         jobTitles=jobTitles,
                                         jobCompanyName=jobCompanyName,
@@ -88,7 +89,8 @@ def pages(request):
                                         jobOthers=jobOthers,
                                         jobDetailUrl=jobDetailUrl,
                                         jiebaCut=jiebaCut,
-                                        jobType=jobType)
+                                        jobType=jobType,
+                                        jobApplyNums=jobApplyNums)
                     print(f'{r}:新增資料')
                 # print('成功新增資料')
 
@@ -114,15 +116,27 @@ def pages(request):
             context["jobs"] = job_list
             context["tt"] = '職缺標題'
         if load_template == 'charts-morris.html':
-            print("斷點一：?????????????????")
             job_list = Jobs.objects.all()
-            print("斷點2：?????????????????")
             df = pd.DataFrame(list(job_list.values()))
-            print("斷點3：?????????????????")
             freq = Jieba_Cut(df)  # 斷詞模組
-            print("斷點4：?????????????????")
             freqTable = freq.pd2frequency('')
-            print("斷點5：?????????????????")
+            # 堆疊長條圖 - 薪水與職缺
+            stackPlot = im_bar_stack(freq.df)
+            context['stackPlot'] = stackPlot
+
+            # 未堆疊長條圖 - 人數與職缺
+            no_stackPlot = im_bar_nostack(freq.df)
+            context['no_stackPlot'] = no_stackPlot
+
+            # 長條圖折線圖 - 職缺薪水平均
+            barLinePlot = im_bar_line(freq.df)
+            context['barLinePlot'] = barLinePlot
+
+            # 混合圖表 = 職缺文字不均度
+            Woe, Spec, Ent, cor = freq.getMixedBarLineData()
+            mixedPlot = im_mixed_bar_line(Woe, Spec, Ent)
+            context['mixedPlot'] = mixedPlot
+
             # 圓餅圖 - 類別
             cat_dict = {i: 0 for i in name}
             for c in df['jobType'].values:
@@ -135,7 +149,6 @@ def pages(request):
             piePlot_type = im_pie(jobN,
                                   list(cat_dict.values()))
             context['piePlot_type'] = piePlot_type
-            print("斷點3：?????????????????")
             # 圓餅圖 - 地點
             city = ['台北市', '高雄市', '新北市', '台中市',
                     '桃園市', '新竹市', '新竹縣', '台南市', '其它縣市']

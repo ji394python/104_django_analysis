@@ -1,3 +1,8 @@
+import random
+from pyecharts import options as opts
+from pyecharts.charts import *
+from pyecharts.charts import Bar, Line
+import pyecharts.options as opts
 import numpy as np
 import pandas as pd
 import jieba
@@ -8,14 +13,8 @@ import json
 class Jieba_Cut():
     def __init__(self, df: pd.DataFrame):
         self.df = df
-        print("斷點6：?????????????????")
-        import os
-        print('第一層', os.listdir('.'))
-        print('第二層', os.listdir('app'))
-        print('第三層', os.listdir(r'app/doc'))
         self.jobD = json.load(
             open(r'app/doc/jobD.json', 'r', encoding='utf-8'))
-        print("斷點7：?????????????????")
         jieba.case_sensitive = True
 
     def cut(self, stopWord: str, userDict: str):
@@ -76,6 +75,46 @@ class Jieba_Cut():
         output = freqTable[(freqTable['twWord'] != '') & (freqTable['len'] == 2)][[
             'Word', 'Values']][:30].values.tolist()
         return ([i[0] for i in output], [i[1] for i in output])
+    
+    def getMixedBarLineData(self):
+        Ent = []
+        spec = []
+        for filter in self.jobD.keys():
+            entropy = 0
+            freqTable = self.pd2frequency(filter)
+            spec.append(len(freqTable))
+            probTable = freqTable['Values'].div(freqTable['Values'].sum())
+            for count in probTable[:-100]:
+                entropy -= count*np.log2(count)
+            Ent.append(round(entropy,2))
+
+
+        wordCount = {k: {'字數': 0, '次數': 0} for k in self.jobD.keys()}
+        Wo = []
+        for r, v in self.df.iterrows():
+            if (isinstance(v['jobType'], float) and np.isnan(v['jobType'])) or v['jobType'] == '':
+                continue
+            else:
+                nums = v['jobType'].split('、')
+                for cat in nums:
+                    title = 0 if (isinstance(v['jobTitles'], float) and np.isnan(
+                        v['jobTitles'])) else len(v['jobTitles'])
+                    cont = 0 if (isinstance(v['jobContent'], float) and np.isnan(
+                        v['jobContent'])) else len(v['jobContent'])
+                    other = 0 if (isinstance(v['jobOthers'], float) and np.isnan(
+                        v['jobOthers'])) else len(v['jobOthers'])
+                    wordCount[cat]['字數'] += cont + title + other
+                    wordCount[cat]['次數'] += 1
+        Woe = []
+        for k, v in wordCount.items():
+            print(k, v['字數']/v['次數'])
+            Wo.append(v['字數'])
+            Woe.append(round(v['字數']/v['次數'],2))
+        cor = round(np.corrcoef([Ent, Wo])[1, 0], 4)
+
+
+        
+        return Woe,spec,Ent,cor
 
     def _get_Stopwordslist(self, filepath):
         stopwords = [line.strip() for line in open(

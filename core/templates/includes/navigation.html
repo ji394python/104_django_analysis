@@ -20,7 +20,7 @@
                         <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span>
                             <span class="pcoded-mtext">主頁面</span></a>
                     </li>
-                    <li class="nav-item pcoded-menu-caption">
+                    {% comment %} <li class="nav-item pcoded-menu-caption">
                         <label>Crawler Platform</label>
                     </li>
                     <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
@@ -36,24 +36,26 @@
 
                             <li class=""><a href="/ui-icons.html" class="">Feather<span class="pcoded-badge label label-danger">NEW</span></a></li>
                         </ul>
-                    </li>
+                    </li> {% endcomment %}
                     <li class="nav-item pcoded-menu-caption">
                         <label>Crawler Platform</label>
                     </li>
-                    <li data-username="form elements advance componant validation masking wizard picker select" 
+                    {% comment %} <li data-username="form elements advance componant validation masking wizard picker select" 
                         class="nav-item {% if 'forms' in segment %} active {% endif %}">
                         <a href="/ui-forms.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Form elements</span></a>
-                    </li>
+                    </li> {% endcomment %}
                     <li data-username="Table bootstrap datatable footable" 
                         class="nav-item {% if 'tables' in segment %} active {% endif %}">
                         <a href="/ui-tables.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">實習職缺概覽 (爬蟲)</span></a>
                     </li>
+                    <li data-username="Charts Morris" 
+                        class="nav-item {% if 'charts-morris' in segment %} active {% endif %}">
+                        <a href="/charts-morris.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-globe"></i></span><span class="pcoded-mtext">探索性資料分析 (all)</span></a>
+                    </li>
                     <li class="nav-item pcoded-menu-caption">
                         <label>Analysis Platform</label>
                     </li>
-                    <li data-username="Charts Morris" 
-                        class="nav-item {% if 'charts-morris' in segment %} active {% endif %}">
-                        <a href="/charts-morris.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-globe"></i></span><span class="pcoded-mtext">探索性資料分析 (all)</span></a></li>
+                    
                     <li data-username="Data Engineer" 
                         class="nav-item {% if 'data-engineer' in segment %} active {% endif %}">
                         <a href="/data-engineer.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cpu"></i></span><span class="pcoded-mtext">資訊工程組</span></a></li>
@@ -84,7 +86,7 @@
                     {% comment %} <li data-username="Maps Google"  
                         class="nav-item {% if 'maps-google' in segment %} active {% endif %}">
                         <a href="/maps-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Maps</span></a></li> {% endcomment %}
-                    <li class="nav-item pcoded-menu-caption">
+                    {% comment %} <li class="nav-item pcoded-menu-caption">
                         <label>Pages</label>
                     </li>
                     <li data-username="Authentication Sign up Sign in reset password Change password Personal information profile settings map form subscribe" class="nav-item pcoded-hasmenu">
@@ -105,7 +107,7 @@
                             </span>
                             <span class="pcoded-mtext">Logout - [ {{ request.user.username }} ]</span>
                         </a>
-                    </li>
+                    </li> {% endcomment %}
                 </ul>
             </div>
         </div>
