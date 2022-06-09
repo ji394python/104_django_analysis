@@ -63,7 +63,7 @@ def im_pie(category: list, data: list):
         .set_global_opts(
             title_opts=opts.TitleOpts(title=""),
             legend_opts=opts.LegendOpts(
-                type_="scroll", pos_left="15%", pos_top='5%', orient="horizontal"),
+                type_="scroll", pos_left="0%", pos_top='5%', orient="horizontal"),
         )
         .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"), tooltip_opts=opts.TooltipOpts(
             trigger="item", formatter="{a} <br/>{b}: {c} ({d}%)"

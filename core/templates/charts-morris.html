@@ -19,12 +19,12 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Morris Chart</h5>
+                            <h5 class="m-b-10">Exploratory Data Analysis</h5>
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="javascript:">Chart</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:">Morris Chart</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:">EDA</a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,170 +35,308 @@
             <div class="page-wrapper">
                 <!-- [ Main Content ] start -->
                 <div class="row">
-                    <div class="col-xl-12">
-                        <div class="accordion" id="accordionExample">
-                            <div class="card">
-                                <div class="card-header" id="headingOne">
-                                    <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">我是說明文字</a></h5>
-                                </div>
-                                <div id="collapseOne" class=" card-body collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                    這邊會說明一下下方的文字雲和長條圖，另外下方的圖表可選擇要不要和此一樣做Toggle
+                    <div class="col-sm-12">
+                        <hr>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active text-uppercase" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Overall</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">角度1-職缺產業類別分布</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">角度2-職缺地區分布</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="new1-tab" data-toggle="tab" href="#new1" role="tab" aria-controls="new1" aria-selected="false">角度3-實習職缺應徵人數</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="new2-tab" data-toggle="tab" href="#new2" role="tab" aria-controls="new2" aria-selected="false">角度4-實習職缺詞彙不均度</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="new3-tab" data-toggle="tab" href="#new3" role="tab" aria-controls="new3" aria-selected="false">角度5-實習職缺薪資種類比</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="new4-tab" data-toggle="tab" href="#new4" role="tab" aria-controls="new4" aria-selected="false">角度6-實習職缺平均薪資</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="new5-tab" data-toggle="tab" href="#new5" role="tab" aria-controls="new5" aria-selected="false">附錄1-文字雲</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase" id="new6-tab" data-toggle="tab" href="#new6" role="tab" aria-controls="new6" aria-selected="false">附錄2-雙詞彙圖</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <p>整體性實習職缺概覽，提供六種角度的分析</p>
+                                <ul>
+                                    <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度一：</span>職缺產業類別分布</li>
+                                    <ul><li>由職務類別進一步去劃分後，可將 2547 則職缺大致上分成九類，由高到低分別為「資訊
+                                        工程、行銷企劃、數據分析、餐飲飯店、行政事務、服務業人員、媒體設計、一般技術、教育補教 」等九種，</li>
+                                        <li>整體上，目前實習市場上仍以資訊工程、行銷企劃類的為多數，同時因應
+                                        5G、物聯網等趨勢，資訊工程業/數據分析業的實習職缺占比也不容小覷。</li></ul>
+                                    <br>
+                                    <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度二：</span>實習職缺地點分布</li>
+                                    <ul><li>由實習職缺的地區分布來看，由高到低分別為「台北市、高雄市、新北市、
+                                        台中市、新竹市、桃園市、新竹縣、台南市」等地，</li>
+                                        <li>其中職缺大量集中在雙北(約52%)，台北市就獨佔了幾乎過半的實習數量，城鄉的職缺數量差距明顯；而高雄市則是
+                                        因為多個科技產業園區的推動，需要大量人才引入，所以職缺也相對多。</li>
+                                        <li>在六都之中，台南市的職缺最少；令人意外地是，新竹縣市的實習職缺亦有不少的比例，應也可歸功
+                                        於竹科與清交等學校位於該處，吸引企業願意進駐開放實習職缺為主。</li></ul>
+                                    <br>
+                                    <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度三：</span>各實習職缺應徵人數</li>
                                     <ul>
-                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度一：</span>職缺類別產業分布</li>
-                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度二：</span>實習職缺地點分布</li>
-                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度三：</span>各實習職缺應徵人數</li>
-                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度四：</span>各實習職缺詞彙不均度</li>
-                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度五：</span>各實習職缺薪資種類占比</li>
-                                        <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度六：</span>各實習職缺平均薪資</li>
-                                            <ul>
-                                                <li>Phasellus iaculis neque</li>
-                                                <li>Purus sodales ultricies</li>
-                                                <li>Vestibulum laoreet porttitor sem</li>
-                                                <li>Ac tristique libero volutpat at</li>
-                                            </ul>
+                                        <li>由各實習職缺的應徵人數分布來看，也可以看出幾個有趣的趨勢：</li>
+                                        <li>「數據分析」有較多比例分布在大於 30 人這個區間，顯示數據分析業的確為目前逐
+                                            漸受歡迎的新穎行業，吸引許多人願意投遞履歷應徵看看，也代表著該類型職缺較
+                                            容易遇到競爭對手。
+                                            </li>
+                                        <li>「資工、設計、餐飲、技術與操作、服務、教育」類的應徵人數分布較為極端，[資工、設計、教育]類因專業度較高，導致應徵人數較少，多集中於 0-5 人區段；</i>
+                                            [餐飲、服務]類則歸因於職缺數量多，且通常會特地使用實習平台的人大多不會去找餐
+                                            飲業，去路上鬧區找就有了、同時技職餐飲學校本身就有合作廠商，亦不需要額外
+                                            使用線上實習職缺平台尋找工作，故在應徵人數上才會大量集中於 0-5 人區段。</li>
                                     </ul>
-                                </div>
+                                    <br>
+
+                                    <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度四：</span>各實習職缺詞彙不均度</li>
+                                    <ul>
+                                        <li>由詞彙不均度來看，發現企業對於不同類型的職缺，在應徵上的描述確實會
+                                            差異甚廣，先從職位介紹的平均字數來找，發現由多到少分別為「數據分析 > 教育補教
+                                            >行銷企劃 > 資訊工程 > 服務業> 行政助理 > 媒體設計> 餐飲飯店 > 技術員」，顯示
+                                            出「高度專業化」的特質，實際去 104 學生實習平台上看，由於資訊工程、行銷企劃等
+                                            職位需要較強的技術和巧思，要和公司理念有較深的雷同才能做得好，故企業在應徵該
+                                            類型的實習生時，確實會用到較多的字數去描述該職位，希望篩選出較合適的求職者；
+                                            隨後再從各職缺類別的 Entropy 值切入，大致上也可得出相同的趨勢，越高度專業化的
+                                            職位，其使用的詞彙量也會來的較多，導致其 Entropy 較高，兩者相關係數來到
+                                            0.8343。</li>
+                                    </ul>
+                                    <br>
+                                    <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度五：</span>各實習職缺薪資種類占比</li>
+                                    <ul>
+                                        <li>由薪資種類比來看，所有職缺雖然趨勢不同，但薪資類型大致上皆以「時薪」為
+                                            主，而其它亦有幾個不一樣的特點：
+                                            1. 固定工作性質的職缺較不會待遇面議：[服務業、餐飲、技術員]類別的職缺，薪資待
+                                            遇可面議的比例非常地低，相比之下其他則皆有相當的比例，而從中又有一個貫穿的
+                                            點，那就是「工作性質」，工作性質越不固定，通常面議的可能性就越高，相對來講
+                                            也讓勞工多掌握一些議價的空間，[服務業、餐飲、技術員]類職缺則較為綁死。 
+                                            2. 創意型性質的職缺較易論件計酬：這項比較像是前項的延伸，在工作性質較不固定的
+                                            職缺中，又以[行銷企劃、藝術設計]的論件計酬比較高，兩者皆達到接近 10%，以實
+                                            習生市場來講這算相當的高，也彰顯出該職缺不易計價，故以案件性質、成果來給新
+                                            的性質。 </li>
+                                    </ul>
+                                    <br>
+                                    <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度六：</span>各實習職缺平均薪資</li>
+                                    <ul>
+                                        <li>由平均時薪、平均月薪來看目前各職缺的薪資市場，另外由於實習本身有[月薪]就
+                                            有點不合理，故針對月薪一欄建議以參考的角度看之，「有可能是企業假借找實習生之
+                                            名，行低價剝削要求實習生上班 5 天充當正職之實」。
+                                            1. 越專業的職缺薪資水平越高: 從平均時薪來看，由高到低分別為「教育補教 > 資工
+                                            > 餐飲飯店 > 數據分析 > 服務業 > 行銷企劃 > 媒體設計 > 行政助理 > 技術
+                                            員」，排列上大致呈現職缺的專業度，教育業因補習班較多或是家教行情影響故在實
+                                            習市場上平均時薪高於資訊工程。
+                                            [註] 平均薪資計算方式
+                                            平均薪資若遇級距則取中間值，例如某演算法實習生時薪開 200-250，則該職缺時
+                                            薪為 225，隨後統計該類職缺貼文的所有時薪，再去計算其平均薪水
+                                            </li>
+                                    </ul>
+                                </ul>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度一：</span>職缺產業類別分布</li>
+                                    <ul><li>由職務類別進一步去劃分後，可將 2547 則職缺大致上分成九類，由高到低分別為「資訊
+                                        工程、行銷企劃、數據分析、餐飲飯店、行政事務、服務業人員、媒體設計、一般技術、教育補教 」等九種，</li>
+                                        <li>整體上，目前實習市場上仍以資訊工程、行銷企劃類的為多數，同時因應
+                                        5G、物聯網等趨勢，資訊工程業/數據分析業的實習職缺占比也不容小覷。</li></ul>
+                                    <br>
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度二：</span>實習職缺地點分布</li>
+                                    <ul><li>由實習職缺的地區分布來看，由高到低分別為「台北市、高雄市、新北市、
+                                        台中市、新竹市、桃園市、新竹縣、台南市」等地，</li>
+                                        <li>其中職缺大量集中在雙北(約52%)，台北市就獨佔了幾乎過半的實習數量，城鄉的職缺數量差距明顯；而高雄市則是
+                                        因為多個科技產業園區的推動，需要大量人才引入，所以職缺也相對多。</li>
+                                        <li>在六都之中，台南市的職缺最少；令人意外地是，新竹縣市的實習職缺亦有不少的比例，應也可歸功
+                                        於竹科與清交等學校位於該處，吸引企業願意進駐開放實習職缺為主。</li></ul>
+                            </div>
+                            <div class="tab-pane fade" id="new1" role="tabpanel" aria-labelledby="new1-tab">
+                                <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度三：</span>各實習職缺應徵人數</li>
+                                    <ul>
+                                        <li>由各實習職缺的應徵人數分布來看，也可以看出幾個有趣的趨勢：</li>
+                                        <li>「數據分析」有較多比例分布在大於 30 人這個區間，顯示數據分析業的確為目前逐
+                                            漸受歡迎的新穎行業，吸引許多人願意投遞履歷應徵看看，也代表著該類型職缺較
+                                            容易遇到競爭對手。
+                                            </li>
+                                        <li>「資工、設計、餐飲、技術與操作、服務、教育」類的應徵人數分布較為極端，[資工、設計、教育]類因專業度較高，導致應徵人數較少，多集中於 0-5 人區段；</i>
+                                            [餐飲、服務]類則歸因於職缺數量多，且通常會特地使用實習平台的人大多不會去找餐
+                                            飲業，去路上鬧區找就有了、同時技職餐飲學校本身就有合作廠商，亦不需要額外
+                                            使用線上實習職缺平台尋找工作，故在應徵人數上才會大量集中於 0-5 人區段。</li>
+                                    </ul>
+                                    <br>
+                            </div>
+                            <div class="tab-pane fade" id="new2" role="tabpanel" aria-labelledby="new2-tab">
+                                <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度四：</span>各實習職缺詞彙不均度</li>
+                                <ul>
+                                    <li>由詞彙不均度來看，發現企業對於不同類型的職缺，在應徵上的描述確實會
+                                        差異甚廣，先從職位介紹的平均字數來找，發現由多到少分別為「數據分析 > 教育補教
+                                        >行銷企劃 > 資訊工程 > 服務業> 行政助理 > 媒體設計> 餐飲飯店 > 技術員」，顯示
+                                        出「高度專業化」的特質，實際去 104 學生實習平台上看，由於資訊工程、行銷企劃等
+                                        職位需要較強的技術和巧思，要和公司理念有較深的雷同才能做得好，故企業在應徵該
+                                        類型的實習生時，確實會用到較多的字數去描述該職位，希望篩選出較合適的求職者；
+                                        隨後再從各職缺類別的 Entropy 值切入，大致上也可得出相同的趨勢，越高度專業化的
+                                        職位，其使用的詞彙量也會來的較多，導致其 Entropy 較高，兩者相關係數來到
+                                        0.8343。</li>
+                                </ul>
+                            </div>
+                            <div class="tab-pane fade" id="new3" role="tabpanel" aria-labelledby="new3-tab">
+                                <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度五：</span>各實習職缺薪資種類占比</li>
+                                    <ul>
+                                        <li>由薪資種類比來看，所有職缺雖然趨勢不同，但薪資類型大致上皆以「時薪」為
+                                            主，而其它亦有幾個不一樣的特點：
+                                            1. 固定工作性質的職缺較不會待遇面議：[服務業、餐飲、技術員]類別的職缺，薪資待
+                                            遇可面議的比例非常地低，相比之下其他則皆有相當的比例，而從中又有一個貫穿的
+                                            點，那就是「工作性質」，工作性質越不固定，通常面議的可能性就越高，相對來講
+                                            也讓勞工多掌握一些議價的空間，[服務業、餐飲、技術員]類職缺則較為綁死。 
+                                            2. 創意型性質的職缺較易論件計酬：這項比較像是前項的延伸，在工作性質較不固定的
+                                            職缺中，又以[行銷企劃、藝術設計]的論件計酬比較高，兩者皆達到接近 10%，以實
+                                            習生市場來講這算相當的高，也彰顯出該職缺不易計價，故以案件性質、成果來給新
+                                            的性質。 </li>
+                                    </ul>
+                                    <br>
+                            </div>
+                            <div class="tab-pane fade" id="new4" role="tabpanel" aria-labelledby="new4-tab">
+                                <li> <span style="font-weight: bold;color:#C00000;font-size:16px;">角度六：</span>各實習職缺平均薪資</li>
+                                    <ul>
+                                        <li>由平均時薪、平均月薪來看目前各職缺的薪資市場，另外由於實習本身有[月薪]就
+                                            有點不合理，故針對月薪一欄建議以參考的角度看之，「有可能是企業假借找實習生之
+                                            名，行低價剝削要求實習生上班 5 天充當正職之實」。
+                                            1. 越專業的職缺薪資水平越高: 從平均時薪來看，由高到低分別為「教育補教 > 資工
+                                            > 餐飲飯店 > 數據分析 > 服務業 > 行銷企劃 > 媒體設計 > 行政助理 > 技術
+                                            員」，排列上大致呈現職缺的專業度，教育業因補習班較多或是家教行情影響故在實
+                                            習市場上平均時薪高於資訊工程。
+                                            [註] 平均薪資計算方式
+                                            平均薪資若遇級距則取中間值，例如某演算法實習生時薪開 200-250，則該職缺時
+                                            薪為 225，隨後統計該類職缺貼文的所有時薪，再去計算其平均薪水
+                                            </li>
+                                    </ul>
+                            </div>
+                            <div class="tab-pane fade" id="new5" role="tabpanel" aria-labelledby="new5-tab">
+                            </div>
+                            <div class="tab-pane fade" id="new6" role="tabpanel" aria-labelledby="new6-tab">
                             </div>
                         </div>
                     </div>
-                    <!-- [ Morris Chart ] start -->
                     <div class="col-xl-12">
+                        <hr>
+                    </div>
+                    <!-- [ Morris Chart ] start -->
+                    
+                    <div class="col-xl-6">
+                             
                         <div class="card">
-                            <div class="card-header">
-                                <h5>職缺圓餅圖 (Pie Chart)</h5>
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">角度1-職缺產業類別分布</a></h5>
                             </div>
+                            <div id="collapseTwo" class=" card-body collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                
                                 {% autoescape off %}
                                 {{ piePlot_type }}
                                 {% endautoescape %}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xl-12">
+                    <div class="col-xl-6">
                         <div class="card">
-                            <div class="card-header">
-                                <h5>職缺地點圓餅圖 (Pie Chart)</h5>
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseThress" aria-expanded="true" aria-controls="collapseThress">角度2-職缺地區分布</a></h5>
                             </div>
+                            <div id="collapseThress" class=" card-body collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                
                                 {% autoescape off %}
                                 {{ piePlot_region }}
                                 {% endautoescape %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h5>職缺種類長條圖 (Pie Chart)</h5>
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">角度3-實習職缺應徵人數</h5>
                             </div>
-                            <div class="col-xl-12">
+                            <div id="collapseFour" class=" card-body collapse show" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                
+                                {% autoescape off %}
+                                {{ no_stackPlot }}
+                                {% endautoescape %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header" id="headingFive">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">角度4-實習職缺詞彙不均度</h5>
+                            </div>
+                            <div id="collapseFive" class=" card-body collapse show" aria-labelledby="headingFive" data-parent="#accordionExample">
+                                
+                                {% autoescape off %}
+                                {{ mixedPlot }}
+                                {% endautoescape %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header" id="headingSeven">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">角度5-職缺薪資種類比</a></h5>
+                            </div>
+                            <div id="collapseSeven" class=" card-body collapse show" aria-labelledby="headingSeven" data-parent="#accordionExample">
+                                
                                 {% autoescape off %}
                                 {{ stackPlot }}
                                 {% endautoescape %}
                             </div>
-                    </div>
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>職缺應徵人數堆疊長條圖 (Pie Chart)</h5>
-                            </div>
-                                {% autoescape off %}
-                                {{ no_stackPlot }}
-                                {% endautoescape %}
                         </div>
                     </div>
-                    <!-- [ Morris Chart ] start -->
                     
                     <div class="col-xl-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h5>職缺文字不均度 (Pie Chart)</h5>
+                            <div class="card-header" id="headingSix">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">角度6-實習職缺平均薪資</h5>
                             </div>
-                                {% autoescape off %}
-                                {{ mixedPlot }}
-                                {% endautoescape %}
-                        </div>
-                    </div>
-
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>職缺薪水圖 (Pie Chart)</h5>
-                            </div>
+                            <div id="collapseSix" class=" card-body collapse show" aria-labelledby="headingSix" data-parent="#accordionExample">
+                                
                                 {% autoescape off %}
                                 {{ barLinePlot }}
                                 {% endautoescape %}
+                            </div>
                         </div>
                     </div>
-                    
                     <div class="col-xl-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h5>文字雲 (Word Cloud)</h5>
+                            <div class="card-header" id="headingTen">
+                                <h5 class="mb-0"><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen">附錄1-實習文字雲</h5>
                             </div>
+                            <div id="collapseTen" class=" card-body collapse show" aria-labelledby="headingTen" data-parent="#accordionExample">
+                                
                                 {% autoescape off %}
                                 {{ plot_div }}
                                 {% endautoescape %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h5>雙詞彙長條圖 (Bar Plot)</h5>
+                            <div class="card-header" id="headingEleven">
+                                <h5 class="mb-0" ><a href="#!" style="color:#000000;" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="true" aria-controls="collapseEleven ">附錄2-實習雙詞彙圖</h5>
                             </div>
-                            <div class="card-block">
+                            <div id="collapseEleven" class=" card-body collapse show" aria-labelledby="headingEleven" data-parent="#accordionExample">
+                                
                                 {% autoescape off %}
-                                    {{ bar }}
+                                {{ bar }}
                                 {% endautoescape %}
                             </div>
                         </div>
                     </div>
-                    {% comment %} <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Line [ Angle ] Chart</h5>
-                            </div>
-                            <div class="card-block">
-                                <div id="morris-area-chart" style="height:300px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Area [ Smooth ] Chart</h5>
-                            </div>
-                            <div class="card-block">
-                                <div id="morris-area-curved-chart" style="height:300px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Line [ Angle ] Chart</h5>
-                            </div>
-                            <div class="card-block">
-                                <div id="morris-line-chart" class="ChartShadow" style="height:300px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Line [ Smooth ] Chart</h5>
-                            </div>
-                            <div class="card-block">
-                                <div id="morris-line-smooth-chart" class="ChartShadow" style="height:300px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Donut Chart</h5>
-                            </div>
-                            <div class="card-block">
-                                <div id="morris-donut-chart" style="height:300px"></div>
-                            </div>
-                        </div>
-                    </div> {% endcomment %}
+                    
                     <!-- [ Morris Chart ] end -->
                 </div>
                 <!-- [ Main Content ] end -->

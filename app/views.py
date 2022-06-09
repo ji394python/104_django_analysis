@@ -18,9 +18,82 @@ from .draw import *
 
 @login_required(login_url="/login/")
 def index(request):
-    context = {'segment': 'index'}
+    context = {}
+    checkbdc = False
+    if request.method == 'POST' and checkbdc:
+        search = request.POST.get('search')
+        S104 = Scrape_104(search, 7)
+        S104 = S104.scrape()
+        if search == '':
+            search = '實習 intern'
+        # S104 = pd.read_csv(r'app/0607全部實習職缺.csv', encoding='utf-8-sig')
+        cut = Jieba_Cut(S104)  # 斷詞模組
+        cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')
+        S104 = cut.df
+        # 0516: SQLite在heroku會有問題，故改用csv
+        for r, i in S104.iterrows():
+            jobAnnounceDate = str(i['jobAnnounceDate'])
+            jobTitles = str(i['jobTitles'])
+            jobCompanyName = str(i['jobCompanyName'])
+            jobCompanyUrl = str(i['jobCompanyUrl'])
+            jobCompanyIndustry = str(i['jobCompanyIndustry'])
+            jobContent = str(i['jobContent'])
+            jobCategory = str(i['jobCategory'])
+            jobSalary = str(i['jobSalary'])
+            jobLocation = str(i['jobLocation'])
+            jobRqYear = str(i['jobRqYear'])
+            jobRqEducation = str(i['jobRqEducation'])
+            jobRqDepartment = str(i['jobRqDepartment'])
+            jobSpecialty = str(i['jobSpecialty'])
+            jobOthers = str(i['jobOthers'])
+            jobDetailUrl = str(i['jobDetailUrl'])
+            jiebaCut = str(i['jiebaCut'])
+            jobType = str(i['jobType'])
+            jobApplyNums = str(i['jobApplyNums'])
+            Jobs.objects.create(jobAnnounceDate=jobAnnounceDate,
+                                jobTitles=jobTitles,
+                                jobCompanyName=jobCompanyName,
+                                jobCompanyUrl=jobCompanyUrl,
+                                jobCompanyIndustry=jobCompanyIndustry,
+                                jobContent=jobContent,
+                                jobCategory=jobCategory,
+                                jobSalary=jobSalary,
+                                jobLocation=jobLocation,
+                                jobRqYear=jobRqYear,
+                                jobRqEducation=jobRqEducation,
+                                jobRqDepartment=jobRqDepartment,
+                                jobSpecialty=jobSpecialty,
+                                jobOthers=jobOthers,
+                                jobDetailUrl=jobDetailUrl,
+                                jiebaCut=jiebaCut,
+                                jobType=jobType,
+                                jobApplyNums=jobApplyNums)
+            print(f'{r}:新增資料')
+        # print('成功新增資料')
 
-    html_template = loader.get_template('index.html')
+        for row in Jobs.objects.all().reverse():
+            if Jobs.objects.filter(jobTitles=row.jobTitles).count() > 1:
+                row.delete()
+                # print('刪除資料')
+    job_list = Jobs.objects.all()
+    # django-filters
+    # from .filters import JobFilter
+    # jobFilter = JobFilter(queryset=job_list)
+    # if request.method == "POST":
+    #     jobFilter = JobFilter(request.POST, queryset=job_list)
+
+    # django-tables2： pagination
+    from .tables import jobsTable
+    from django_tables2 import RequestConfig
+    table = jobsTable(job_list)
+    table.order_by = "-jobAnnounceDate"
+    RequestConfig(request, paginate={"per_page": 20}).configure(table)
+
+    context['table'] = table
+    context["jobs"] = job_list
+    context["tt"] = '職缺標題'
+
+    html_template = loader.get_template('ui-tables.html')
     return HttpResponse(html_template.render(context, request))
 
 
@@ -45,11 +118,13 @@ def pages(request):
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
-            if request.method == 'POST':
-                # search = request.POST.get('search')
-                # S104 = Scrape_104('實習 intern', 2)
-                # S104 = S104.scrape()
-                S104 = pd.read_csv(r'app/0607全部實習職缺.csv', encoding='utf-8-sig')
+            checkbdc = False
+            if request.method == 'POST' and checkbdc:
+                search = request.POST.get('search')
+                if search == '':
+                    search = '實習 intern'
+                S104 = Scrape_104(search, 7)
+                S104 = S104.scrape()
                 cut = Jieba_Cut(S104)  # 斷詞模組
                 cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')
                 S104 = cut.df
