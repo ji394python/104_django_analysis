@@ -5,6 +5,7 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 {% load render_table from django_tables2 %}
+{% load querystring from django_tables2%}
 <link rel="stylesheet" href="https://www.matrixdecor.eu/static/django_tables2/themes/paleblue/css/screen.css" />
 
 {% block content %}
@@ -61,6 +62,9 @@
                                 <div class="table-responsive">
                                     {% render_table table %}
                                 </div>
+                                <br>
+                                <a  href="{% querystring '_export'='csv' %}">Download CSV</a>
+
                             </div>
                         </div>
                     </div>

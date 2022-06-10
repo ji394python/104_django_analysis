@@ -35,3 +35,19 @@ class jobsTable(tables.Table):
             'class': 'table table-striped'
         }
         order_by_field = 'sort_by'  # default: sort
+
+
+class jobsTable2(tables.Table):
+
+    class Meta:
+        model = Jobs
+        # add class="paleblue" to <table> tag
+        exclude = ('id', "jobCompanyUrl",
+                   "jobDetailUrl", 'jobType')  # 可以隱藏欄位
+        # sequence = ("last_name", "first_name", "birth_date", )  # 可以調整順序
+
+        template_name = "django_tables2/bootstrap4.html"
+        attrs = {
+            'class': 'table table-striped'
+        }
+        order_by_field = 'sort_by'  # default: sort

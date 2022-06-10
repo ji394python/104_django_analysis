@@ -190,6 +190,33 @@ def pages(request):
             context['table'] = table
             context["jobs"] = job_list
             context["tt"] = '職缺標題'
+
+            from .export import TableExport
+
+            export_format = request.GET.get('_export', None)
+
+            if TableExport.is_valid_format(export_format):
+                from .tables import jobsTable2
+                tablee = jobsTable2(job_list)
+                table = tablee
+                exporter = TableExport(export_format, table)
+                return exporter.response('File_Name.{}'.format(export_format))
+
+        if load_template == 'table.html':
+
+            # CSV
+            import csv
+            print('0')
+            response = HttpResponse(mimetype='text/csv')
+            print('1')
+            response['Content-Disposition'] = 'attachment; filename=my.csv'
+
+            writer = csv.writer(response)
+            writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+            writer.writerow(['Second row', 'A', 'B', 'C',
+                            '"Testing"', "Here's a quote"])
+            print('?')
+            return response
         if load_template == 'charts-morris.html':
             job_list = Jobs.objects.all()
             df = pd.DataFrame(list(job_list.values()))
