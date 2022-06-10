@@ -12,7 +12,7 @@ django-tables2==2.4.1
 gunicorn==20.1.0
 idna==3.3
 importlib-metadata==4.11.3
-jieba==0.39
+jieba==0.39.1
 Jinja2==3.1.2
 lxml==4.8.0
 MarkupSafe==2.1.1
@@ -31,6 +31,7 @@ simplejson==3.17.6
 six==1.16.0
 soupsieve==2.3.2.post1
 sqlparse==0.4.2
+tablib==3.2.1
 toml==0.10.2
 typing-extensions==4.2.0
 Unipath==1.1
