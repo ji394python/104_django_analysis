@@ -152,15 +152,3 @@ $(window).scroll(function() {
     var e = $(window)[0].innerWidth;
     $(".pcoded-navbar").on("click tap", function(e) { e.stopPropagation() }), $(".pcoded-main-container,.pcoded-header").on("click", function() { e < 992 && 1 == $(".pcoded-navbar").hasClass("mob-open") && ($(".pcoded-navbar").removeClass("mob-open"), $("#mobile-collapse,#mobile-collapse1").removeClass("on")) }), $("#mobile-header").on("click", function() { $(".navbar-collapse,.m-header").slideToggle() })
 });
-$('body').append('' +
-    '<div class="fixed-button">' + '<a href="https://youtube" target="_blank" class="btn btn-md btn-primary">' + '<i class="fa fa-icon-user" aria-hidden="true"></i> Linkedin' +
-    '</a> ' + '</div>' + '');
-var $window = $(window);
-var nav = $('.fixed-button');
-$window.scroll(function() {
-    if ($window.scrollTop() >= 200) {
-        nav.addClass('active');
-    } else {
-        nav.removeClass('active');
-    }
-});

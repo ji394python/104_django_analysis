@@ -194,13 +194,18 @@ def pages(request):
             from .export import TableExport
 
             export_format = request.GET.get('_export', None)
+            print('斷點1')
 
             if TableExport.is_valid_format(export_format):
+                print('斷點2')
                 from .tables import jobsTable2
                 tablee = jobsTable2(job_list)
+                print('斷點3')
                 table = tablee
                 exporter = TableExport(export_format, table)
+                print('斷點4')
                 return exporter.response('File_Name.{}'.format(export_format))
+                print('斷點5')
 
         if load_template == 'table.html':
 
