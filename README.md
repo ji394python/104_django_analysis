@@ -11,11 +11,11 @@
 
 
 ## 網站環境
-- 開發版本：Python 3.7.3
-- 後端框架：Django 3.2
-- 前端元組框架：Bootstrp 4
-- 伺服器：Heroku
-- 資料庫：SQLite3
+- **開發版本：**Python 3.7.3
+- **後端框架：**Django 3.2
+- **前端元組框架：**Bootstrp 4
+- **伺服器：**Heroku
+- **資料庫：**SQLite3
 
 
 ## 網站截圖
