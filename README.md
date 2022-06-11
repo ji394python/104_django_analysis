@@ -1,2 +1,42 @@
 # 104_django_analysis
 #104人力銀行 #django #crawler #bootstrap 104爬蟲分析平台
+
+<hr>
+
+### 在線Demo：<a href="http://127.0.0.1:8000/ui-tables.html" target="_blank">104職缺爬蟲分析平台 </a>
+
+<hr>
+
+## 實現功能摘要
+- 使用者註冊+登出入功能
+- 實時在線的爬蟲+斷詞+檔案下載功能
+- 全體實習職缺的探索性分析 (EDA)
+- 9種實習職缺類別文字雲+雙詞彙圖 (EDA)
+
+<hr>
+
+## 網站環境
+- 開發版本：Python 3.7.3
+- 後端框架：Django 3.2
+- 前端元組框架：Bootstrp 4
+- 伺服器：Heroku
+- 資料庫：SQLite3
+
+<hr>
+
+## 網站截圖
+- **登入頁面：**
+
+    <img src="figs/login.png" style="width:600px;">
+
+- **主頁**：提供在線爬蟲+斷詞+檔案下載
+
+    <img src="figs/table.png" style="width:600px;">
+
+- **分析**：程式碼提供圓餅圖、堆疊長條圖、混合圖、文字雲等功能
+
+    <img src="figs/wordcloud.png" style="width:600px;">
+
+    <img src="figs/pie.png" style="width:600px;">
+
+    <img src="figs/mixedp.png" style="width:600px;">
