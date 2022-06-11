@@ -14,21 +14,25 @@ from .models import *
 import pandas as pd
 from .jieba_cut import Jieba_Cut
 from .draw import *
+from .tables import jobsTable
+from django_tables2 import RequestConfig
 
 
 @login_required(login_url="/login/")
 def index(request):
     context = {}
-    checkbdc = False
-    if request.method == 'POST' and checkbdc:
+    if request.method == 'POST':
+        '''
+            因伺服器我是免費版xD，故僅爬取七頁的職缺做更新，
+            Default：沒輸入字的話，就是更新實習的職缺
+        '''
         search = request.POST.get('search')
         S104 = Scrape_104(search, 7)
         S104 = S104.scrape()
         if search == '':
             search = '實習 intern'
-        # S104 = pd.read_csv(r'app/0607全部實習職缺.csv', encoding='utf-8-sig')
         cut = Jieba_Cut(S104)  # 斷詞模組
-        cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')
+        cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')  # 停用詞與加權詞
         S104 = cut.df
         # 0516: SQLite在heroku會有問題，故改用csv
         for r, i in S104.iterrows():
@@ -74,13 +78,7 @@ def index(request):
         for row in Jobs.objects.all().reverse():
             if Jobs.objects.filter(jobTitles=row.jobTitles).count() > 1:
                 row.delete()
-                # print('刪除資料')
     job_list = Jobs.objects.all()
-    # django-filters
-    # from .filters import JobFilter
-    # jobFilter = JobFilter(queryset=job_list)
-    # if request.method == "POST":
-    #     jobFilter = JobFilter(request.POST, queryset=job_list)
 
     # django-tables2： pagination
     from .tables import jobsTable
@@ -94,6 +92,19 @@ def index(request):
     context["tt"] = '職缺標題'
 
     html_template = loader.get_template('ui-tables.html')
+    
+    
+    from .export import TableExport
+    export_format = request.GET.get('_export', None)
+
+    if TableExport.is_valid_format(export_format):
+        from .tables import jobsTable2
+        tablee = jobsTable2(job_list)
+        table = tablee
+        exporter = TableExport(export_format, table)
+        return exporter.response('File_Name.{}'.format(export_format))
+    
+    
     return HttpResponse(html_template.render(context, request))
 
 
@@ -118,15 +129,19 @@ def pages(request):
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
         if load_template == 'ui-tables.html':
-            checkbdc = False
-            if request.method == 'POST' and checkbdc:
+            if request.method == 'POST':
+                '''
+                    因伺服器我是免費版xD，故僅爬取七頁的職缺做更新，
+                    Default：沒輸入字的話，就是更新實習的職缺
+                '''
                 search = request.POST.get('search')
-                if search == '':
-                    search = '實習 intern'
                 S104 = Scrape_104(search, 7)
                 S104 = S104.scrape()
+                if search == '':
+                    search = '實習 intern'
                 cut = Jieba_Cut(S104)  # 斷詞模組
-                cut.cut(r'app/doc/stopword.txt', r'app/doc/user.txt')
+                cut.cut(r'app/doc/stopword.txt',
+                        r'app/doc/user.txt')  # 停用詞與加權詞
                 S104 = cut.df
                 # 0516: SQLite在heroku會有問題，故改用csv
                 for r, i in S104.iterrows():
@@ -172,17 +187,8 @@ def pages(request):
                 for row in Jobs.objects.all().reverse():
                     if Jobs.objects.filter(jobTitles=row.jobTitles).count() > 1:
                         row.delete()
-                        # print('刪除資料')
             job_list = Jobs.objects.all()
-            # django-filters
-            # from .filters import JobFilter
-            # jobFilter = JobFilter(queryset=job_list)
-            # if request.method == "POST":
-            #     jobFilter = JobFilter(request.POST, queryset=job_list)
 
-            # django-tables2： pagination
-            from .tables import jobsTable
-            from django_tables2 import RequestConfig
             table = jobsTable(job_list)
             table.order_by = "-jobAnnounceDate"
             RequestConfig(request, paginate={"per_page": 20}).configure(table)
@@ -194,34 +200,14 @@ def pages(request):
             from .export import TableExport
 
             export_format = request.GET.get('_export', None)
-            print('斷點1')
 
             if TableExport.is_valid_format(export_format):
-                print('斷點2')
                 from .tables import jobsTable2
                 tablee = jobsTable2(job_list)
-                print('斷點3')
                 table = tablee
                 exporter = TableExport(export_format, table)
-                print('斷點4')
                 return exporter.response('File_Name.{}'.format(export_format))
-                print('斷點5')
 
-        if load_template == 'table.html':
-
-            # CSV
-            import csv
-            print('0')
-            response = HttpResponse(mimetype='text/csv')
-            print('1')
-            response['Content-Disposition'] = 'attachment; filename=my.csv'
-
-            writer = csv.writer(response)
-            writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
-            writer.writerow(['Second row', 'A', 'B', 'C',
-                            '"Testing"', "Here's a quote"])
-            print('?')
-            return response
         if load_template == 'charts-morris.html':
             job_list = Jobs.objects.all()
             df = pd.DataFrame(list(job_list.values()))
@@ -289,34 +275,11 @@ def pages(request):
 
             context['bar'] = barPlot
 
-        # if load_template == 'data-engineer.html':
-
-        #     job_list = Jobs.objects.all()
-        #     df = pd.DataFrame(list(job_list.values()))
-        #     freq = Jieba_Cut(df)  # 斷詞模組
-        #     freqTable = freq.pd2frequency('資訊工程')
-
-        #     data = []
-        #     for i in freqTable.values:
-        #         if i[1] < 10:
-        #             continue
-        #         data.append(tuple(i))
-        #     from .draw import im_word, im_bar
-        #     wordCloud = im_word(data[:700])
-        #     context['plot_div'] = wordCloud
-            # BarPlot
-        #     bar = freq.getBarData('資訊工程')
-        #     barPlot = im_bar(bar)
-
-        #     context['bar'] = barPlot
         if load_template in industry:
             filter = name[industry.index(load_template)]
-            # print('資訊工程')
-
             job_list = Jobs.objects.all()
             df = pd.DataFrame(list(job_list.values()))
             freq = Jieba_Cut(df)  # 斷詞模組
-            # freq.cut(r'app\doc\stopword.txt', r'app\doc\user.txt') #資料準的話就不用這行
             freqTable = freq.pd2frequency(filter)
 
             data = []
