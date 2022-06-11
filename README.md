@@ -31,10 +31,10 @@
 
     <img src="https://github.com/ji394python/104_django_analysis/blob/master/figs/wordcloud.PNG" style="width:600px;">
 
-    <br>
+<br>
 
     <img src="https://github.com/ji394python/104_django_analysis/blob/master/figs/pie.PNG" style="width:600px;">
 
-    <br>
-    
+<br>
+
     <img src="https://github.com/ji394python/104_django_analysis/blob/master/figs/mixedp.PNG" style="width:600px;">
