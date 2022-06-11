@@ -1,6 +1,5 @@
 # 104_django_analysis
 #### Demo：<a href="http://127.0.0.1:8000/ui-tables.html" target="_blank">104職缺爬蟲分析平台 </a>
-#104人力銀行 #django #crawler #bootstrap 104爬蟲分析平台
 <hr>
 
 ## 實現功能摘要
