@@ -1,5 +1,5 @@
 # 104_django_analysis
-#### Demo：<a href="http://127.0.0.1:8000/ui-tables.html" target="_blank">104職缺爬蟲分析平台 </a>
+#### Demo：<a href="https://denver0515-django.herokuapp.com/" target="_blank">104職缺爬蟲分析平台 </a>
 <hr>
 
 ## 實現功能摘要
